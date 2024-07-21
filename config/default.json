@@ -1,0 +1,13 @@
+{
+  "name": "Mnist_LeNet",
+  "n_gpu": 1,
+
+  "arch": {
+    "type": "",
+    "args": { }
+  },
+
+  "data_loader": {
+    "type": "MnistDataLoader"
+  }
+}
