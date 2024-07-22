@@ -1,13 +1,22 @@
 {
   "name": "Mnist_LeNet",
-  "n_gpu": 1,
 
-  "arch": {
-    "type": "",
-    "args": { }
+  "device": {
+    "type": "cpu",
+    "total": 2
+  },
+
+  "model": {
+    "type": "MnistModel",
+    "args": {  }
   },
 
   "data_loader": {
-    "type": "MnistDataLoader"
+    "type": "FashionMNISTDataLoader",
+    "args": {
+      "batch_size": 128,
+      "data_dir": "./dataset"
+    }
   }
+
 }

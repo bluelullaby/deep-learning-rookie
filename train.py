@@ -1,9 +1,13 @@
 import argparse
 from parse_config import ConfigParser
+import data_loader as module_data
 
 
-def main(config):
-    pass
+def main(config: ConfigParser):
+    # load train and val dataloader
+    data_loader = config.init_obj("data_loader", module_data)
+    train_data_loader, val_data_loader = data_loader["train"], data_loader["val"]
+
 
 
 if __name__ == '__main__':
