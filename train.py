@@ -1,18 +1,27 @@
 import argparse
-from parse_config import ConfigParser
-import data_loader as module_data
+from utils.config import *
+from agents import *
 
 
-def main(config: ConfigParser):
-    # load train and val dataloader
-    data_loader = config.init_obj("data_loader", module_data)
-    train_data_loader, val_data_loader = data_loader["train"], data_loader["val"]
+def main():
+    # parse the path of the json config file
+    arg_parser = argparse.ArgumentParser(description="")
+    arg_parser.add_argument(
+        'config',
+        metavar='config_json_file',
+        default='None',
+        help='The Configuration file in json format')
+    args = arg_parser.parse_args()
 
+    # parse the config json file
+    config = process_config(args.config)
+
+    # Create the Agent and pass all the configuration to it then run it..
+    agent_class = globals()[config["agent"]]
+    agent = agent_class(**config)
+    agent.run()
+    agent.finalize()
 
 
 if __name__ == '__main__':
-    args = argparse.ArgumentParser(description="Pytorch Train Project")
-    args.add_argument("-c", "--config", default=None, type=str, help="config file path (default: None)")
-
-    config = ConfigParser.from_args(args)
-    main(config)
+    main()

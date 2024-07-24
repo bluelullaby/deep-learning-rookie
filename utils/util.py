@@ -1,9 +1,7 @@
-import json
-from pathlib import Path
-from collections import OrderedDict
+import torch
 
 
-def read_json(fname: str):
-    fname = Path(fname)
-    with fname.open('rt') as file:
-        return json.load(file, object_hook=OrderedDict)
+def try_gpu(i=0):
+    if torch.cuda.device_count() >= i + 1:
+        return torch.device(f'cuda:{i}')
+    return torch.device('cpu')

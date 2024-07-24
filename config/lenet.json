@@ -1,0 +1,13 @@
+{
+  "exp_name": "mnist_exp_0",
+  "agent": "LeNetAgent",
+  "mode": "train",
+
+  "cuda": true,
+  "gpu_device": 0,
+  "seed": 1,
+
+  "log_interval": 100,
+
+  "checkpoint_file": "checkpoint.pth.tar"
+}
