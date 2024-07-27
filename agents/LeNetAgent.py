@@ -10,10 +10,7 @@ from base.base_trainer import BaseTrainer
 class LeNetAgent(BaseTrainer):
 
     def __init__(self, max_epoch=10, batch_size=128, num_workers=1, lr=0.5, log_interval=100, *args, **kwargs):
-        super().__init__()
-        self.max_epoch = max_epoch
-        self.log_interval = log_interval
-        self.device = try_gpu()
+        super().__init__(*args, **kwargs)
         self.data_loader = FashionMNISTDataLoader(batch_size=batch_size, num_workers=num_workers)
         self.model = LeNet().to(self.device)
         self.loss = nn.CrossEntropyLoss(reduction="none")
@@ -39,10 +36,11 @@ class LeNetAgent(BaseTrainer):
 
     def train(self):
         for epoch in range(1, self.max_epoch + 1):
-            self.train_one_epoch(epoch)
+            self.current_epoch = epoch
+            self.train_one_epoch()
             self.validate()
 
-    def train_one_epoch(self, epoch):
+    def train_one_epoch(self):
         self.model.train()
         train_loss = 0
         correct = 0
@@ -60,7 +58,7 @@ class LeNetAgent(BaseTrainer):
             self.optimizer.step()
             if batch_idx % self.log_interval == 0:
                 print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                    epoch, batch_idx * len(X), len(self.data_loader.train.dataset),
+                    self.current_epoch, batch_idx * len(X), len(self.data_loader.train.dataset),
                     100. * batch_idx / len(self.data_loader.train), batch_train_loss))
         train_loss /= len(self.data_loader.train.dataset)
         print('\nTrain set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(

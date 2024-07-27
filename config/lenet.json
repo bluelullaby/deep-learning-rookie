@@ -8,6 +8,7 @@
   "seed": 1,
 
   "log_interval": 100,
+  "max_epoch": 10,
 
   "checkpoint_file": "checkpoint.pth.tar"
 }

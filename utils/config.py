@@ -17,7 +17,7 @@ def get_config_from_json(json_file):
 
 
 def setup_logging(log_dir):
-    log_file_format = "[%(levelname)s] - %(asctime)s - %(name)s - : %(message)s in %(pathname)s:%(lineno)d"
+    log_file_format = "[%(levelname)s]: %(message)s"
     log_console_format = "[%(levelname)s]: %(message)s"
 
     # Main logger
@@ -28,8 +28,8 @@ def setup_logging(log_dir):
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(Formatter(log_console_format))
 
-    exp_file_handler = RotatingFileHandler('{}exp_debug.log'.format(log_dir), maxBytes=10 ** 6, backupCount=5)
-    exp_file_handler.setLevel(logging.DEBUG)
+    exp_file_handler = RotatingFileHandler('{}exp_info.log'.format(log_dir), maxBytes=10 ** 6, backupCount=5)
+    exp_file_handler.setLevel(logging.INFO)
     exp_file_handler.setFormatter(Formatter(log_file_format))
 
     exp_errors_file_handler = RotatingFileHandler('{}exp_error.log'.format(log_dir), maxBytes=10 ** 6, backupCount=5)
