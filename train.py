@@ -18,7 +18,7 @@ def main():
     config = process_config(args.config)
 
     # decide tensor dtype
-    # torch.set_default_dtype(torch.float64)
+    # torch.set_default_dtype(torch.float16)
 
     # Create the Agent and pass all the configuration to it then run it..
     agent_class = globals()[config["agent"]]

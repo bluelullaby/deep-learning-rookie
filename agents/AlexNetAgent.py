@@ -94,11 +94,11 @@ class AlexNetAgent(BaseTrainer):
             if batch_idx % self.log_interval == 0:
                 self.logger.info('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                     self.current_epoch, batch_idx * len(X), len(self.data_loader.train.dataset),
-                    100. * batch_idx / len(self.data_loader.train), batch_train_loss))
+                    100. * (batch_idx / len(self.data_loader.train)), batch_train_loss))
         train_loss /= len(self.data_loader.train.dataset)
         self.logger.info('\nTrain set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(
             train_loss, correct, len(self.data_loader.train.dataset),
-            100. * correct / len(self.data_loader.train.dataset)))
+            100. * (correct / len(self.data_loader.train.dataset))))
         return train_loss
 
     def validate(self):
@@ -114,7 +114,7 @@ class AlexNetAgent(BaseTrainer):
         val_loss /= len(self.data_loader.val.dataset)
         self.logger.info('Validation set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
             val_loss, correct, len(self.data_loader.val.dataset),
-            100. * correct / len(self.data_loader.val.dataset)))
+            100. * (correct / len(self.data_loader.val.dataset))))
         return val_loss
 
     def save_checkpoint(self, is_best=False):
