@@ -1,0 +1,19 @@
+{
+  "exp_name": "resnet_exp_0",
+  "agent": "ResNetAgent",
+  "mode": "train",
+  "resume": true,
+
+  "data_dir": "./datasets/imagenette2-320",
+  "max_epoch": 60,
+  "lr": 0.02,
+  "early_stop": 10,
+
+  "cuda": true,
+  "gpu_device": 0,
+  "seed": 1,
+
+  "log_interval": 20,
+
+  "checkpoint_file": "checkpoint.pth.tar"
+}

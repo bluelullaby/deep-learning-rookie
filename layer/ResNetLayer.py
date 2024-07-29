@@ -40,13 +40,21 @@ class ResidualBlock(nn.Module):
         return out
 
 
-def make_layer():
-    pass
+class ResidualLayer(nn.Sequential):
 
+    def __init__(self, layers):
+        super().__init__(*layers)
 
-if __name__ == '__main__':
-    X = torch.rand((256, 64, 56, 56))
-    net = ResidualBlock(64, 128, 2,
-                        downsample=nn.Sequential(nn.Conv2d(kernel_size=1, in_channels=64, out_channels=128, stride=2),
-                                                 nn.BatchNorm2d(num_features=128)))
-    print(net(X).shape)
+    @classmethod
+    def make_layer(cls, in_channels, out_channels, num_conv):
+        layers = []
+        if in_channels == out_channels:
+            layers.append(ResidualBlock(in_channels=in_channels, out_channels=out_channels, stride=1, downsample=None))
+        else:
+            layers.append(ResidualBlock(in_channels=in_channels, out_channels=out_channels, stride=2,
+                                        downsample=nn.Sequential(
+                                            nn.Conv2d(kernel_size=1, in_channels=in_channels, out_channels=out_channels, stride=2),
+                                            nn.BatchNorm2d(num_features=out_channels))))
+        for _ in range(1, num_conv):
+            layers.append(ResidualBlock(in_channels=out_channels, out_channels=out_channels, stride=1, downsample=None))
+        return ResidualLayer(layers)
