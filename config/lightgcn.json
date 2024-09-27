@@ -1,0 +1,19 @@
+{
+  "exp_name": "resnet_exp_0",
+  "agent": "LightGCNAgent",
+  "mode": "train",
+  "resume": false,
+
+  "data_dir": "./datasets/yelp2018",
+  "max_epoch": 10,
+  "lr": 0.1,
+  "early_stop": 10,
+
+  "cuda": true,
+  "gpu_device": 0,
+  "seed": 1,
+
+  "log_interval": 20,
+
+  "checkpoint_file": "checkpoint.pth.tar"
+}
