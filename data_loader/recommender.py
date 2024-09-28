@@ -90,6 +90,7 @@ class Interaction(object):
     def convert_to_laplacian_mat(self, adj_mat):
         user_np_keep, item_np_keep = adj_mat.nonzero()
         ratings_keep = adj_mat.data
+        # item_np_keep + adj_mat.shape[0] - 广播机制， 将item的序号统一增长user_num
         tmp_adj = sp.csr_matrix((ratings_keep, (user_np_keep, item_np_keep + adj_mat.shape[0])),
                                 shape=(adj_mat.shape[0] + adj_mat.shape[1], adj_mat.shape[0] + adj_mat.shape[1]),
                                 dtype=np.float32)
