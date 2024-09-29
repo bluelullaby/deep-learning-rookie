@@ -18,7 +18,10 @@ class SASRec(nn.Module):
         self.num_head = num_head
         # layer
         self.item_embedding = nn.Embedding(num_items + 1, hidden_size, padding_idx=0)
-        self.pos_embedding = nn.Embedding(num_items + 1, hidden_size, padding_idx=0)
+        self.pos_embedding = nn.Embedding(max_len + 1, hidden_size, padding_idx=0)
+        # init
+        nn.init.xavier_normal_(self.item_embedding.weight)
+        nn.init.xavier_normal_(self.pos_embedding.weight)
         self.embedding_dropout = nn.Dropout(dropout_rate)
         self.transformer_encoder = nn.TransformerEncoder(nn.TransformerEncoderLayer(self.hidden_size,
                                                                       self.num_head,

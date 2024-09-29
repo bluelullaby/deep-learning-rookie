@@ -1,6 +1,6 @@
 {
-  "exp_name": "sasrec_exp_0",
-  "agent": "SASRecAgent",
+  "exp_name": "cl4rec_exp_0",
+  "agent": "CL4SRecAgent",
   "mode": "train",
   "resume": false,
 
