@@ -1,0 +1,19 @@
+{
+  "exp_name": "sasrec_exp_0",
+  "agent": "SASRecAgent",
+  "mode": "train",
+  "resume": false,
+
+  "data_dir": "./datasets/amazon-beauty",
+  "max_epoch": 500,
+  "lr": 0.01,
+  "early_stop": 10,
+
+  "cuda": true,
+  "gpu_device": 0,
+  "seed": 1,
+
+  "log_interval": 20,
+
+  "checkpoint_file": "checkpoint.pth.tar"
+}

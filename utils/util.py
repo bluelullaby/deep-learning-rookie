@@ -21,6 +21,7 @@ def convert_sparse_mat_to_tensor(X):
     v = torch.from_numpy(coo.data).float()
     return torch.sparse.FloatTensor(i, v, coo.shape)
 
+
 @jit(nopython=True)
 def find_k_largest(K, candidates):
     n_candidates = []

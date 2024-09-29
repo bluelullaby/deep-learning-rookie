@@ -6,7 +6,7 @@ import torch.nn.functional as F
 
 from data_loader.recommender import normalize_graph_mat
 from base.base_trainer import BaseTrainer
-from data_loader.recommender import load_text_file
+from data_loader.recommender import load_data_file
 from data_loader.recommender import Interaction
 from data_loader.yelp import next_batch_pairwise
 from utils.util import convert_sparse_mat_to_tensor
@@ -48,8 +48,8 @@ class SGLAgent(BaseTrainer):
         self.reg_coefficient = reg_coefficient
         self.cl_coefficient = cl_coefficient
         # dataset
-        self.data = Interaction(load_text_file(os.path.join(data_dir, "train.txt")),
-                                load_text_file(os.path.join(data_dir, "test.txt")))
+        self.data = Interaction(load_data_file(os.path.join(data_dir, "train.txt")),
+                                load_data_file(os.path.join(data_dir, "test.txt")))
         # 数据集原有的正则化邻接矩阵
         self.origin_norm_adj = convert_sparse_mat_to_tensor(self.data.norm_adj).to(self.device)
         # model
@@ -221,8 +221,12 @@ class SGLAgent(BaseTrainer):
             for epoch in range(self.current_epoch + 1, self.max_epoch + 1):
                 self.current_epoch = epoch
 
+                self.model.train()
                 self.train_one_epoch()
+
+                self.model.eval()
                 measure = self.validate()
+
                 performance = {k: float(v) for m in measure[1:] for k, v in [m.strip().split(':')]}
 
                 improved = self.mnt_best is None or (
@@ -236,13 +240,13 @@ class SGLAgent(BaseTrainer):
                     not_improved_count += 1
                     is_best = False
 
-                print('-' * 80)
-                print(f'Real-Time Ranking Performance (Top-{self.max_top} Item Recommendation)')
+                self.logger.info('-' * 80)
+                self.logger.info(f'Real-Time Ranking Performance (Top-{self.max_top} Item Recommendation)')
                 measure_str = ', '.join([f'{k}: {v}' for k, v in performance.items()])
-                print(f'*Current Performance*\nEpoch: {self.current_epoch}, {measure_str}')
+                self.logger.info(f'*Current Performance*\nEpoch: {self.current_epoch}, {measure_str}')
                 bp = ', '.join([f'{k}: {v}' for k, v in self.mnt_best.items()])
-                print(f'*Best Performance*\nEpoch: {self.current_epoch}, {bp}')
-                print('-' * 80)
+                self.logger.info(f'*Best Performance*\nEpoch: {self.current_epoch}, {bp}')
+                self.logger.info('-' * 80)
 
                 if self.early_stop and not_improved_count > self.early_stop:
                     self.logger.info("Validation performance didn\'t improve for {} epochs. "
